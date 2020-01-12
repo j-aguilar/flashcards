@@ -4,10 +4,14 @@ import Back from './Back';
 import './flipcard.css';
 
 class FlipCard extends Component {
+  componentDidUpdate() {
+
+  }
+
   render() {
     return(
       <div className="flip-card">
-        <div className="flip-card-child-positioner">
+        <div id="flip-card-child-positioner">
           <Front question={this.props.qa.question}/>
           <Back answer={this.props.qa.answer}/>
         </div>
