@@ -8,8 +8,8 @@ class FlipCard extends Component {
     return(
       <div className="flip-card">
         <div className="flip-card-child-positioner">
-          <Front />
-          <Back />
+          <Front question={this.props.qa.question}/>
+          <Back answer={this.props.qa.answer}/>
         </div>
       </div>
     )
