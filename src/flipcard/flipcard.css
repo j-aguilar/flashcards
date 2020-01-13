@@ -29,12 +29,14 @@
 .flip-card-front {
   background-color: #bbb;
   color: black;
+  overflow: auto;
 }
 
 .flip-card-back {
   background-color: dodgerblue;
   color: white;
   transform: rotateY(180deg);
+  overflow: auto;
 }
 
 #front-face.clear {

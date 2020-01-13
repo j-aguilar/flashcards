@@ -1,7 +1,4 @@
 import React, {Component}  from 'react';
-import ReactDOM from 'react-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 import './App.css';
 import data from './data/data.js'
 import Flex from './flex/Flex'
@@ -11,12 +8,17 @@ import ActionBar from './actionbar/ActionBar'
 class App extends Component {
   constructor() {
     super()
+    this.cardCount = 0
     this.voices = []
+    this.usingAutoPlay = false
     this.state = {
       qa: {}
     }
     this.getNextQASet = this.getNextQASet.bind(this)
+    this.flipCard = this.flipCard.bind(this)
     this.readAload = this.readAload.bind(this)
+    this.autoPlay = this.autoPlay.bind(this)
+    this.toggleAutoPlay = this.toggleAutoPlay.bind(this)
   }
 
   getNextQASet() {
@@ -26,6 +28,7 @@ class App extends Component {
         answer: "There are no more cards to display."
       }
       if (data.length > 0) qa = data.pop()
+      this.cardCount += 1
 
       document.getElementById('front-face').classList.add('clear')
       document.getElementById('back-face').classList.add('clear')
@@ -40,6 +43,10 @@ class App extends Component {
     })
   }
 
+  flipCard() {
+    document.getElementById('flip-card-child-positioner').classList.toggle('flipped')
+  }
+
   readAload() {
     const flipped = document.getElementById('flip-card-child-positioner').classList.contains('flipped')
     const side = (flipped)? "answer": "question";
@@ -47,8 +54,11 @@ class App extends Component {
     const synth = window.speechSynthesis;
     let utterThis = new SpeechSynthesisUtterance(text)
     utterThis.voice = this.voices[3]
-    console.log(utterThis)
+    //console.log(utterThis)
     synth.speak(utterThis)
+    if (this.usingAutoPlay) {
+      utterThis.onend = (event) => {this.autoPlay(side)}
+    }
   }
 
   setSpeech() {
@@ -67,6 +77,35 @@ class App extends Component {
       )
   }
 
+  toggleAutoPlay () {
+    this.usingAutoPlay = !this.usingAutoPlay;
+    document.getElementById('flip-card-child-positioner').classList.remove('flipped')
+    if (this.usingAutoPlay) {
+      this.autoPlay("starting")
+    }
+  }
+
+  autoPlay (phase) {
+    console.log(phase, this.cardCount);
+    switch (phase) {
+      case "starting":
+        this.readAload()
+        break;
+      case "question":
+        this.flipCard()
+        setTimeout(() => {this.readAload()}, 1500)
+        break;
+      case "answer":
+        this.getNextQASet()
+        setTimeout(() => {this.readAload()}, 3500)
+        break;
+      default:
+      // Do nothing
+
+    }
+
+  }
+
   componentDidMount() {
     let s = this.setSpeech();
     s.then((voices) => this.voices = voices);
@@ -79,7 +118,7 @@ class App extends Component {
       <div className="App">
         <Flex>
           <FlipCard qa={this.state.qa}/>
-          <ActionBar getNextQASet={this.getNextQASet} readAload={this.readAload}/>
+          <ActionBar toggleAutoPlay={this.toggleAutoPlay} getNextQASet={this.getNextQASet} flipCard={this.flipCard} readAload={this.readAload}/>
         </Flex>
       </div>
     );
