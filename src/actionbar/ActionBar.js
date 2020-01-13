@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLongArrowAltRight, faExchangeAlt } from '@fortawesome/free-solid-svg-icons'
+import { faLongArrowAltRight, faExchangeAlt, faVolumeUp } from '@fortawesome/free-solid-svg-icons'
 
 class ActionBar extends Component {
   constructor(){
@@ -17,6 +17,7 @@ class ActionBar extends Component {
     return (
       <div>
         <button onClick={this.flipCard}><FontAwesomeIcon icon={faExchangeAlt} />Flip</button>
+        <button onClick={this.props.readAload}><FontAwesomeIcon icon={faVolumeUp} />Listen</button>
         <button onClick={this.props.getNextQASet}><FontAwesomeIcon icon={faLongArrowAltRight} />Next</button>
       </div>
     )

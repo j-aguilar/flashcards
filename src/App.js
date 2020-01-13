@@ -11,10 +11,12 @@ import ActionBar from './actionbar/ActionBar'
 class App extends Component {
   constructor() {
     super()
+    this.voices = []
     this.state = {
       qa: {}
     }
     this.getNextQASet = this.getNextQASet.bind(this)
+    this.readAload = this.readAload.bind(this)
   }
 
   getNextQASet() {
@@ -38,18 +40,45 @@ class App extends Component {
     })
   }
 
+  readAload() {
+    const flipped = document.getElementById('flip-card-child-positioner').classList.contains('flipped')
+    const side = (flipped)? "answer": "question";
+    const text = this.state.qa[side]
+    const synth = window.speechSynthesis;
+    let utterThis = new SpeechSynthesisUtterance(text)
+    utterThis.voice = this.voices[3]
+    console.log(utterThis)
+    synth.speak(utterThis)
+  }
+
+  setSpeech() {
+      return new Promise(
+          function (resolve, reject) {
+              let synth = window.speechSynthesis;
+              let id;
+
+              id = setInterval(() => {
+                  if (synth.getVoices().length !== 0) {
+                      resolve(synth.getVoices());
+                      clearInterval(id);
+                  }
+              }, 10);
+          }
+      )
+  }
+
   componentDidMount() {
+    let s = this.setSpeech();
+    s.then((voices) => this.voices = voices);
     return this.getNextQASet()
   }
 
   render() {
-    //console.log(typeof data, data)
-    //console.log(this.qa)
     return (
       <div className="App">
         <Flex>
           <FlipCard qa={this.state.qa}/>
-          <ActionBar getNextQASet={this.getNextQASet}/>
+          <ActionBar getNextQASet={this.getNextQASet} readAload={this.readAload}/>
         </Flex>
       </div>
     );
