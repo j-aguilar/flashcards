@@ -11,8 +11,9 @@ class App extends Component {
     this.cardCount = 0
     this.voices = []
     this.usingAutoPlay = false
+    this.chunks = []
     this.state = {
-      qa: {}
+      qa: {},
     }
     this.getNextQASet = this.getNextQASet.bind(this)
     this.flipCard = this.flipCard.bind(this)
@@ -48,18 +49,32 @@ class App extends Component {
   }
 
   readAload() {
-    const flipped = document.getElementById('flip-card-child-positioner').classList.contains('flipped')
-    const side = (flipped)? "answer": "question";
-    const text = this.state.qa[side]
-    const synth = window.speechSynthesis;
-    let utterThis = new SpeechSynthesisUtterance(text)
-    utterThis.voice = this.voices[3]
-    //console.log(utterThis)
-    synth.speak(utterThis)
-    if (this.usingAutoPlay) {
-      utterThis.onend = (event) => {this.autoPlay(side)}
+    const flipped = document.getElementById('flip-card-child-positioner').classList.contains('flipped'),
+          side = (flipped)? "answer": "question",
+          text = this.state.qa[side],
+          shouldChunk = function () { return !!text.match(/\t/g) },
+          setChunks = function () { return text.split('\t') },
+          synth = window.speechSynthesis,
+          that = this
+    let input = ( shouldChunk() )? setChunks() : text
+
+    function read () {
+      let tx = (input instanceof Array && input.length > 0)? input.shift() : input,
+          utterThis = new SpeechSynthesisUtterance(tx)
+      utterThis.voice = that.voices[3]
+
+      if (input instanceof Array && input.length > 0) {
+        utterThis.onend = (event) => {read()}
+      } else if (that.usingAutoPlay) {
+        utterThis.onend = (event) => {that.autoPlay(side)}
+      }
+
+      synth.speak(utterThis)
     }
+    read()
   }
+
+
 
   setSpeech() {
       return new Promise(
@@ -86,7 +101,7 @@ class App extends Component {
   }
 
   autoPlay (phase) {
-    console.log(phase, this.cardCount);
+    console.log((phase === 'starting')? phase + "..." : `seen ${this.cardCount} cards: ${phase} for card ${this.state.qa.id}`)
     switch (phase) {
       case "starting":
         this.readAload()
