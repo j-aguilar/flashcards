@@ -16,9 +16,9 @@ class ActionBar extends Component {
   render(){
     return (
       <div>
-        <button onClick={this.flipCard}><FontAwesomeIcon icon={faExchangeAlt} />Flip</button>
-        <button onClick={this.props.readAload}><FontAwesomeIcon icon={faVolumeUp} />Listen</button>
-        <button onClick={this.props.getNextQASet}><FontAwesomeIcon icon={faLongArrowAltRight} />Next</button>
+        <button onClick={this.flipCard}><FontAwesomeIcon icon={faExchangeAlt} /> Flip</button>
+        <button onClick={this.props.readAload}><FontAwesomeIcon icon={faVolumeUp} /> Listen</button>
+        <button onClick={this.props.getNextQASet}><FontAwesomeIcon icon={faLongArrowAltRight} /> Next</button>
       </div>
     )
   }

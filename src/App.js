@@ -70,6 +70,7 @@ class App extends Component {
   componentDidMount() {
     let s = this.setSpeech();
     s.then((voices) => this.voices = voices);
+    data.sort(() => (0.5 - Math.random()) )
     return this.getNextQASet()
   }
 
