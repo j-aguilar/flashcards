@@ -1,9 +1,9 @@
 import React, {Component}  from 'react';
 import './App.css';
 import data from './data/data.js'
-import Flex from './flex/Flex'
-import FlipCard from './flipcard/FlipCard'
-import ActionBar from './actionbar/ActionBar'
+import Flex from './components/Flex'
+import FlipCard from './components/FlipCard'
+import ActionBar from './components/ActionBar'
 
 class App extends Component {
   constructor() {
