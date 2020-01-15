@@ -2,7 +2,8 @@
   background-color: transparent;
   width: 300px;
   height: 200px;
-  border: 1px solid #f1f1f1;
+  margin-bottom: 32px;
+  /* border: 1px solid #f1f1f1; */
   perspective: 1000px;
 }
 
@@ -20,29 +21,31 @@
 }
 
 .flip-card-front, .flip-card-back {
+  box-sizing: border-box;
   position: absolute;
   width: 100%;
   height: 100%;
+  padding: 8px;
   backface-visibility: hidden;
 }
 
-.flip-card-front {
-  background-color: #bbb;
-  color: black;
+.flip-card-front.MuiPaper-root {
+  background-color: #424242;
+  color: white;
   overflow: auto;
 }
 
-.flip-card-back {
-  background-color: dodgerblue;
+.flip-card-back.MuiPaper-root {
+  background-color: #424242;
   color: white;
   transform: rotateY(180deg);
   overflow: auto;
 }
 
 #front-face.clear {
-  color: #bbb;
+  color: #424242;
 }
 
 #back-face.clear {
-  color: dodgerblue;
+  color: 424242;
 }

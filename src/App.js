@@ -1,9 +1,12 @@
-import React, {Component}  from 'react';
+import React, {Component}  from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import PouchDB from 'pouchdb'
 import './App.css';
 import data from './data/data.js'
 import Flex from './components/Flex'
 import FlipCard from './components/FlipCard'
 import ActionBar from './components/ActionBar'
+import CardButtonBar from './components/CardButtonBar'
 
 class App extends Component {
   constructor() {
@@ -74,8 +77,6 @@ class App extends Component {
     read()
   }
 
-
-
   setSpeech() {
       return new Promise(
           function (resolve, reject) {
@@ -133,7 +134,7 @@ class App extends Component {
       <div className="App">
         <Flex>
           <FlipCard qa={this.state.qa}/>
-          <ActionBar toggleAutoPlay={this.toggleAutoPlay} getNextQASet={this.getNextQASet} flipCard={this.flipCard} readAload={this.readAload}/>
+          <CardButtonBar toggleAutoPlay={this.toggleAutoPlay} getNextQASet={this.getNextQASet} flipCard={this.flipCard} readAload={this.readAload}/>
         </Flex>
       </div>
     );
