@@ -30,7 +30,7 @@ export default function SimpleModal(props) {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState('Cat in the Hat');
+  const [name, setName] = React.useState('');
   const handleChange = event => {
     setName(event.target.value);
   };
@@ -48,6 +48,7 @@ export default function SimpleModal(props) {
     console.log("submitted")
     props.addCategory(name)
     handleClose()
+    setName('')
   }
 
   return (
@@ -63,7 +64,7 @@ export default function SimpleModal(props) {
       >
         <div style={modalStyle} className={classes.paper}>
           <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
-            <TextField id="standard-name" label="Name" value={name} onChange={handleChange} />
+            <TextField id="standard-full-width" placeholder="Category Name" fullWidth label="Category Name" value={name} onChange={handleChange} />
           </form>
         </div>
       </Modal>
