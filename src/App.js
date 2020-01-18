@@ -6,6 +6,7 @@ import 'typeface-roboto';
 import data from './data/data.js'
 import Home from './pages/Home'
 import Categories from './pages/Categories'
+import Category from './pages/Category'
 import Viewer from './pages/Viewer'
 import DB from './db.js'
 
@@ -45,7 +46,10 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-        <Switch>
+          <Switch>
+            <Route path="/categories/:id">
+              <Category />
+            </Route>
             <Route path="/">
               <Categories categories={this.state.categories || []} addCategory={this.addCategory} />
             </Route>

@@ -40,7 +40,7 @@ function Categories (props) {
         break;
       default:
         component = props.categories.map( category => {
-          return <ListItemLink href="#simple-list" key={category.key}> <ListItemText primary={category.doc.name} /> </ListItemLink>
+          return <ListItemLink href={`\/categories\/${category.id}`} key={category.key}> <ListItemText primary={category.doc.name} /> </ListItemLink>
         })
         break;
 
