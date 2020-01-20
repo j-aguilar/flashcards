@@ -2,9 +2,9 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+// import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Flex from './../../components/Flex'
 import CategoryForm from './../../components/CategoryForm'
 
@@ -40,7 +40,7 @@ function Categories (props) {
         break;
       default:
         component = props.categories.map( category => {
-          return <ListItemLink href={`\/categories\/${category.id}`} key={category.key}> <ListItemText primary={category.doc.name} /> </ListItemLink>
+          return <ListItemLink href={`/categories/${category.id}`} key={category.key}> <ListItemText primary={category.doc.name} /> </ListItemLink>
         })
         break;
 

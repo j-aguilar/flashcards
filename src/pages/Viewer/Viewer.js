@@ -14,8 +14,13 @@ class Viewer extends Component {
     this.usingAutoPlay = false
     this.chunks = []
     this.state = {
-      categories: [],
-      qa: {},
+      cards: [],
+      qa: {
+        doc: {
+          question: "Loading...",
+          answer: "Loading..."
+        }
+      }
     }
     this.getNextQASet = this.getNextQASet.bind(this)
     this.flipCard = this.flipCard.bind(this)
@@ -30,8 +35,8 @@ class Viewer extends Component {
         question: "There are no more cards to display.",
         answer: "There are no more cards to display."
       }
-      if (data.length > 0) qa = data.pop()
-      this.cardCount += 1
+      //if (data.length > 0) qa = data.pop()
+      this.cardCount -= 1
 
       document.getElementById('front-face').classList.add('clear')
       document.getElementById('back-face').classList.add('clear')
@@ -41,9 +46,10 @@ class Viewer extends Component {
         document.getElementById('back-face').classList.remove('clear')
       }, 500)
       return {
-        qa: qa
+        qa: this.state.cards[this.cardCount]
       }
     })
+    console.log(this.state.qa)
   }
 
   flipCard() {
@@ -53,7 +59,7 @@ class Viewer extends Component {
   readAload() {
     const flipped = document.getElementById('flip-card-child-positioner').classList.contains('flipped'),
           side = (flipped)? "answer": "question",
-          text = this.state.qa[side],
+          text = this.state.qa.doc[side],
           shouldChunk = function () { return !!text.match(/\t/g) },
           setChunks = function () { return text.split('\t') },
           synth = window.speechSynthesis,
@@ -122,17 +128,22 @@ class Viewer extends Component {
 
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.props.fetchCards("category_JavaScript_Interview_Questions")
+    let cards = [...this.props.cards].sort(() => (0.5 - Math.random()) )
     let s = this.setSpeech();
     s.then((voices) => this.voices = voices);
-    data.sort(() => (0.5 - Math.random()) )
-    return this.getNextQASet()
+    this.setState((prevState) => {return {cards: cards}})
+    //data.sort(() => (0.5 - Math.random()) )
+    this.cardCount = this.state.cards.length
+
+    this.getNextQASet()
   }
 
   render () {
     return (
       <Flex>
-        <FlipCard qa={this.state.qa}/>
+        <FlipCard card={this.state.qa.doc} fetchCards={this.props.fetchCards}/>
         <CardButtonBar toggleAutoPlay={this.toggleAutoPlay} getNextQASet={this.getNextQASet} flipCard={this.flipCard} readAload={this.readAload}/>
       </Flex>
     )

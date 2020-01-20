@@ -1,5 +1,5 @@
 import PouchDB from 'pouchdb'
-import data from './data/data.js'
+//import data from './data/data.js'
 
 export default class DB {
   constructor (name) {
@@ -16,6 +16,7 @@ export default class DB {
     let category = categoryName.replace('category_', '')
     let cards = await this.db.allDocs({ startkey: `card_${category}`, endkey: `card_${category}\uffff`, include_docs: true })
     console.log(cards)
+    return cards
   }
 
   async createCategory(name) {

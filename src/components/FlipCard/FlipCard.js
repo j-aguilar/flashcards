@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import './flipcard.css';
 import { Paper } from '@material-ui/core'
+import { useParams } from "react-router-dom";
 
 const Front = (props) => {
   return (
@@ -13,18 +14,21 @@ const Back = (props) => {
   )
 }
 
-class FlipCard extends Component {
+export default function FlipCard (props) {
+  const id = "category_JavaScript_Interview_Questions"
+  const [iterator, setIterator] = useState(0)
+  useEffect(() => {
+    console.log(props)
+    console.log(id)
+    props.fetchCards(id)
+  }, [])
 
-  render() {
-    return(
-      <div className="flip-card">
-        <div id="flip-card-child-positioner">
-          <Front question={this.props.qa.question}/>
-          <Back answer={this.props.qa.answer}/>
-        </div>
+  return(
+    <div className="flip-card">
+      <div id="flip-card-child-positioner">
+        <Front question={props.card.question}/>
+        <Back answer={props.card.answer}/>
       </div>
-    )
-  }
+    </div>
+  )
 }
-
-export default FlipCard

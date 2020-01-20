@@ -1,9 +1,9 @@
 import React, {Component}  from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
-import PouchDB from 'pouchdb'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+//import PouchDB from 'pouchdb'
 import './App.css';
 import 'typeface-roboto';
-import data from './data/data.js'
+//import data from './data/data.js'
 import Home from './pages/Home'
 import Categories from './pages/Categories'
 import Category from './pages/Category'
@@ -16,19 +16,19 @@ class App extends Component {
     this.state = {
       db: new DB('test'),
       categories: [],
+      cards: [],
       qa: {},
     }
     this.addCategory = this.addCategory.bind(this);
+    this.fetchCards = this.fetchCards.bind(this);
   }
 
-  componentWillMount() {
-    this.updateCategories();
+  componentDidMount() {
+    this.fetchCategories();
   }
 
-  async updateCategories() {
+  async fetchCategories() {
     const categories = await this.state.db.getAllCategories()
-
-    console.log(categories);
 
     this.setState({
       categories: categories.rows
@@ -39,7 +39,20 @@ class App extends Component {
     console.log(category);
     let res = await this.state.db.createCategory(category)
     console.log(res)
-    this.updateCategories()
+    this.fetchCategories()
+  }
+
+  async editCategory(category) {
+    // TODO: add editing function to db
+  }
+
+  async fetchCards(categoryName) {
+    const cards = await this.state.db.getCardsFromCategory(categoryName)
+    console.log(cards)
+    this.setState({
+      cards: cards.rows
+    })
+    console.log(this.state.cards)
   }
 
   render() {
@@ -48,10 +61,13 @@ class App extends Component {
         <Router>
           <Switch>
             <Route path="/categories/:id">
-              <Category />
+              <Category cards={this.state.cards || []} fetchCards={this.fetchCards}/>
+            </Route>
+            <Route path="/categories">
+              <Categories categories={this.state.categories || []} addCategory={this.addCategory} />
             </Route>
             <Route path="/">
-              <Categories categories={this.state.categories || []} addCategory={this.addCategory} />
+              <Viewer cards={this.state.cards || []} fetchCards={this.fetchCards}/>
             </Route>
           </Switch>
       </Router>
