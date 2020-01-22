@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import Flex from './../../components/Flex'
 import FlipCard from './../../components/FlipCard'
-import ActionBar from './../../components/ActionBar'
+//import ActionBar from './../../components/ActionBar'
 import CardButtonBar from './../../components/CardButtonBar'
-import data from './../../data/data.js'
+//import data from './../../data/data.js'
 
 class Viewer extends Component {
 
@@ -32,8 +32,10 @@ class Viewer extends Component {
   getNextQASet() {
     return this.setState((prevState) => {
       let qa = {
-        question: "There are no more cards to display.",
-        answer: "There are no more cards to display."
+        doc: {
+          question: "There are no more cards to display.",
+          answer: "There are no more cards to display."
+        }
       }
       //if (data.length > 0) qa = data.pop()
       this.cardCount -= 1
@@ -45,8 +47,9 @@ class Viewer extends Component {
         document.getElementById('front-face').classList.remove('clear')
         document.getElementById('back-face').classList.remove('clear')
       }, 500)
+      if (this.cardCount > -1) qa = this.state.cards[this.cardCount]
       return {
-        qa: this.state.cards[this.cardCount]
+        qa: qa
       }
     })
     console.log(this.state.qa)
