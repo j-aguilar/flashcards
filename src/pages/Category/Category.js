@@ -6,6 +6,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import Flex from './../../components/Flex'
 
@@ -16,6 +19,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     minHeight: 200,
+    overflow: 'auto'
   }
 }));
 
@@ -40,7 +44,16 @@ export default function Category (props) {
         break;
       default:
         component = props.cards.map( card => {
-          return <ListItem key={card.key}> <ListItemText primary={card.doc.question} /> </ListItem>
+          return (
+            <ListItem key={card.key}>
+              <ListItemText primary={card.doc.question} secondary={card.doc.answer} />
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="edit">
+                    <EditIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+            </ListItem>
+          )
         })
       break;
     }
@@ -49,7 +62,6 @@ export default function Category (props) {
 
   return (
     <div>
-      <h3>ID: {id}</h3>
         <Flex>
           <div className={classes.root}>
             <List>
