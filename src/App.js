@@ -1,13 +1,13 @@
 import React, {Component}  from 'react'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-//import PouchDB from 'pouchdb'
 import './App.css';
 import 'typeface-roboto';
-//import data from './data/data.js'
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Home from './pages/Home'
 import Categories from './pages/Categories'
 import Category from './pages/Category'
 import Viewer from './pages/Viewer'
+import BottomAppBar from './components/BottomAppBar'
 import DB from './db.js'
 
 class App extends Component {
@@ -58,6 +58,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <React.Fragment>
+          <CssBaseline />
+        </React.Fragment>
         <Router>
           <Switch>
             <Route path="/categories/:id">
@@ -71,6 +74,7 @@ class App extends Component {
             </Route>
           </Switch>
       </Router>
+      <BottomAppBar />
     </div>
     );
   }

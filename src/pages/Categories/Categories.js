@@ -1,13 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-// import Button from '@material-ui/core/Button';
-import Flex from './../../components/Flex'
-import CategoryForm from './../../components/CategoryForm'
-
+import { List, ListItem, ListItemText } from '@material-ui/core';
+import { Flex, CategoryForm } from '../_components'
 
 const useStyles = makeStyles(theme => ({
   root: {

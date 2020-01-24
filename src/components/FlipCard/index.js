@@ -1,3 +1,1 @@
-import FlipCard from "./FlipCard"
-
-export default FlipCard
+export { default as default } from './FlipCard'

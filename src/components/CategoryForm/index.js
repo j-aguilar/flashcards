@@ -1,3 +1,1 @@
-import CategoryForm from './CategoryForm'
-
-export default CategoryForm
+export { default as default } from './CategoryForm'
