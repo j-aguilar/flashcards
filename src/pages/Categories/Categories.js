@@ -1,7 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText } from '@material-ui/core';
-import { Flex, CategoryForm } from '../_components'
+import { Flex, CategoryForm, BottomAppBar } from '../_components'
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,9 +24,33 @@ function NoCategories(props) {
   return <ListItem><ListItemText primary="No categories..." /></ListItem>
 }
 
-function Categories (props) {
+export default function Categories (props) {
+  console.log(this)
   console.log(props.categories)
   const classes = useStyles();
+
+  const [open, setOpen] = React.useState(false);
+  const [name, setName] = React.useState('');
+
+  const fabActions = {
+    handleOpen() {
+      setOpen(true);
+    },
+    handleClose() {
+      setOpen(false);
+    },
+    handleSubmit(event) {
+      event.preventDefault()
+      console.log("submitted")
+      props.addCategory(name)
+      fabActions.handleClose()
+      setName('')
+    },
+    handleChange(event) {
+      setName(event.target.value);
+    }
+  }
+
   const CategoryList = () => {
     let component = ''
     switch (props.categories.length) {
@@ -42,15 +67,16 @@ function Categories (props) {
     return component
   }
   return (
-    <Flex>
-      <div className={classes.root}>
-        <List>
-          {CategoryList()}
-        </List>
-      </div>
-      <CategoryForm addCategory={props.addCategory}/>
-    </Flex>
+    <React.Fragment>
+        <Flex>
+          <div className={classes.root}>
+            <List>
+              {CategoryList()}
+            </List>
+          </div>
+          <CategoryForm fabActions={fabActions} open={open} name={name}/>
+        </Flex>
+      <BottomAppBar useFab={true} fabActions={fabActions}/>
+    </React.Fragment>
   )
 }
-
-export default Categories

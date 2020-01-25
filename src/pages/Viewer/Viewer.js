@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
-import Flex from './../../components/Flex'
-import FlipCard from './../../components/FlipCard'
-import CardButtonBar from './../../components/CardButtonBar'
+import { Flex, FlipCard, CardButtonBar, BottomAppBar} from '../_components'
 
 class Viewer extends Component {
   constructor() {
@@ -116,10 +114,13 @@ class Viewer extends Component {
 
   render () {
     return (
-      <Flex>
-        <FlipCard card={this.state.qa.doc} fetchCards={this.props.fetchCards}/>
-        <CardButtonBar toggleAutoPlay={this.toggleAutoPlay} getNextQASet={this.getNextQASet} flipCard={this.flipCard} readAload={this.readAload}/>
-      </Flex>
+      <React.Fragment>
+        <Flex>
+          <FlipCard card={this.state.qa.doc} fetchCards={this.props.fetchCards}/>
+          <CardButtonBar toggleAutoPlay={this.toggleAutoPlay} getNextQASet={this.getNextQASet} flipCard={this.flipCard} readAload={this.readAload}/>
+        </Flex>
+        <BottomAppBar useFab={false} />
+      </React.Fragment>
     )
   }
 }

@@ -5,69 +5,40 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import TextField from '@material-ui/core/TextField'
 
-function getModalStyle() {
-  const top = 50, left = 50;
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`
-  }
-}
-
 const useStyles = makeStyles(theme => ({
-  paper: {
+  modal: {
     position: 'absolute',
     width: 400,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
   },
 }));
 
 export default function CategoryForm(props) {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState('');
-  const handleChange = event => {
-    setName(event.target.value);
-  };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    console.log("submitted")
-    props.addCategory(name)
-    handleClose()
-    setName('')
-  }
-
+  console.log(props.fabActions);
   return (
-    <div>
-      <Fab color="primary" aria-label="add" onClick={handleOpen}>
-        <AddIcon />
-      </Fab>
-      <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={open}
-        onClose={handleClose}
-      >
-        <div style={modalStyle} className={classes.paper}>
-          <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
-            <TextField id="standard-full-width" placeholder="Category Name" fullWidth label="Category Name" value={name} onChange={handleChange} />
-          </form>
-        </div>
-      </Modal>
-    </div>
+    <Modal
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+      open={props.open}
+      onClose={props.fabActions.handleClose}
+    >
+      <div className={classes.modal}>
+        <form className={classes.root} noValidate autoComplete="off" onSubmit={props.fabActions.handleSubmit}>
+          <TextField id="standard-full-width" placeholder="Category Name" fullWidth label="Category Name"
+             value={props.name} onChange={props.fabActions.handleChange} />
+        </form>
+      </div>
+    </Modal>
   );
 }

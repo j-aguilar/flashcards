@@ -1,3 +1,1 @@
-import CardButtonBar from './CardButtonBar'
-
-export default CardButtonBar
+export { default as default } from './CardButtonBar'

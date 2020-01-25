@@ -74,7 +74,6 @@ class App extends Component {
             </Route>
           </Switch>
       </Router>
-      <BottomAppBar />
     </div>
     );
   }
