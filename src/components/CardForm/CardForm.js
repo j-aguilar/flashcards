@@ -32,8 +32,10 @@ export default function CategoryForm(props) {
     >
       <div className={classes.modal}>
         <form className={classes.root} noValidate autoComplete="off" onSubmit={props.fabActions.handleSubmit}>
-          <TextField id="standard-full-width" placeholder="Category Name" fullWidth label="Category Name"
-             value={props.name} onChange={props.fabActions.handleChange} autoFocus required />
+          <TextField multiline placeholder="Question" fullWidth label="Question" name="question"
+             value={props.question} onChange={props.fabActions.handleChange} autoFocus required />
+          <TextField multiline placeholder="Answer" fullWidth label="Answer" name="answer"
+            value={props.answer} onChange={props.fabActions.handleChange} required />
           <Button variant="contained" color="primary" type="submit" style={{marginTop: '0.5em'}}>Submit</Button>
         </form>
       </div>

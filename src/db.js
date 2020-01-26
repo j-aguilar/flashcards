@@ -28,8 +28,17 @@ export default class DB {
       updatedAt: new Date()
     }
 
-    const res = await this.db.post(category)
+    const res = await this.db.put(category)
     return res
+  }
+
+  createCard = async (obj) => { return await this.db.put(
+    {
+      ...obj,
+      _id: obj.category.replace('category_', 'card_').concat(`@${new Date().getTime()}`),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
   }
 
 }

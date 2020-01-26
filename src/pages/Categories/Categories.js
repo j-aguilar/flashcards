@@ -68,15 +68,15 @@ export default function Categories (props) {
   }
   return (
     <React.Fragment>
-        <Flex>
-          <div className={classes.root}>
-            <List>
-              {CategoryList()}
-            </List>
-          </div>
-          <CategoryForm fabActions={fabActions} open={open} name={name}/>
-        </Flex>
-      <BottomAppBar useFab={true} fabActions={fabActions}/>
+      <Flex>
+        <div className={classes.root}>
+          <List>
+            {CategoryList()}
+          </List>
+        </div>
+      </Flex>
+      <CategoryForm fabActions={fabActions} open={open} name={name}/>
+      <BottomAppBar useFab={true} handleOpen={fabActions.handleOpen}/>
     </React.Fragment>
   )
 }

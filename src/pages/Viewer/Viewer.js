@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { withRouter } from "react-router";
 import { Flex, FlipCard, CardButtonBar, BottomAppBar} from '../_components'
 
 class Viewer extends Component {
@@ -101,10 +102,12 @@ class Viewer extends Component {
     }
     /* bind all object methods to the 'this' property*/
     Object.getOwnPropertyNames(that).filter(p => typeof that[p] === 'function').forEach(m => {that[m] = that[m].bind(that)})
-  }
+  } /* constructor */
 
   async componentDidMount() {
-    await this.props.fetchCards("category_JavaScript_Interview_Questions")
+    console.log(this.props)
+    const id = this.props.match.params.id
+    await this.props.fetchCards(id)
     let cards = [...this.props.cards].sort(() => (0.5 - Math.random()) )
     let s = this.setSpeech().then((voices) => this.voices = voices);
     this.setState((prevState) => {return {cards: cards}})
@@ -125,4 +128,4 @@ class Viewer extends Component {
   }
 }
 
-export default Viewer
+export default withRouter(Viewer)

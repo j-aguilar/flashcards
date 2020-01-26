@@ -23,18 +23,17 @@ const useStyles = makeStyles(theme => ({
 
 export default function BottomAppBar(props) {
   const classes = useStyles();
-  console.log(typeof props.useFab, props.useFab);
+  // console.log(typeof props.useFab, props.useFab);
 
   return (
     <React.Fragment>
       <AppBar position="fixed" color="primary" className={classes.appBar}>
         <Toolbar>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">Veiwer</Button>
-          <Button color="inherit">Editor</Button>
           <Button color="inherit">Categories</Button>
+          <Button color="inherit">Editor</Button>
+          <Button color="inherit">Veiwer</Button>
           {props.useFab &&
-            <Fab color="secondary" aria-label="add" className={classes.fabButton} onClick={props.fabActions.handleOpen}>
+            <Fab color="secondary" aria-label="add" className={classes.fabButton} onClick={props.handleOpen}>
               <AddIcon />
             </Fab>
           }

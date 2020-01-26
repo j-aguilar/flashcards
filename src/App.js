@@ -13,46 +13,40 @@ import DB from './db.js'
 class App extends Component {
   constructor() {
     super()
+    const that = this
+    this.db = new DB('test')
     this.state = {
-      db: new DB('test'),
       categories: [],
       cards: [],
       qa: {},
     }
-    this.addCategory = this.addCategory.bind(this);
-    this.fetchCards = this.fetchCards.bind(this);
-  }
+    this.fetchCategories = async () => {
+      this.setState({ categories: (await this.db.getAllCategories()).rows })
+    }
+    this.addCategory = async (category) => {
+      console.log(category);
+      let res = await this.db.createCategory(category)
+      console.log(res)
+      this.fetchCategories()
+    }
+    this.editCategory = async (category) => {
+      // TODO: add editing function to db
+    }
+    this.fetchCards = async (categoryName) => {
+      this.setState({ cards: (await this.db.getCardsFromCategory(categoryName)).rows })
+    }
+    this.addCard = async (object) => {
+      // console.log(object);
+      let res = await this.db.createCard(object)
+      console.log(res)
+      this.fetchCards(object.category)
+    }
+    /* bind all object methods to the 'this' property*/
+    Object.getOwnPropertyNames(that).filter(p => typeof that[p] === 'function').forEach(m => {that[m] = that[m].bind(that)})
+  } /* constructor */
 
   componentDidMount() {
     this.fetchCategories();
-  }
-
-  async fetchCategories() {
-    const categories = await this.state.db.getAllCategories()
-
-    this.setState({
-      categories: categories.rows
-    })
-  }
-
-  async addCategory(category) {
-    console.log(category);
-    let res = await this.state.db.createCategory(category)
-    console.log(res)
-    this.fetchCategories()
-  }
-
-  async editCategory(category) {
-    // TODO: add editing function to db
-  }
-
-  async fetchCards(categoryName) {
-    const cards = await this.state.db.getCardsFromCategory(categoryName)
-    console.log(cards)
-    this.setState({
-      cards: cards.rows
-    })
-    console.log(this.state.cards)
   }
 
   render() {
@@ -63,14 +57,14 @@ class App extends Component {
         </React.Fragment>
         <Router>
           <Switch>
-            <Route path="/categories/:id">
-              <Category cards={this.state.cards || []} fetchCards={this.fetchCards}/>
+            <Route path="/categories/:id/viewer/">
+              <Viewer cards={this.state.cards || []} fetchCards={this.fetchCards}/>
             </Route>
-            <Route path="/categories">
-              <Categories categories={this.state.categories || []} addCategory={this.addCategory} />
+            <Route path="/categories/:id">
+              <Category cards={this.state.cards || []} fetchCards={this.fetchCards} addCard={this.addCard} />
             </Route>
             <Route path="/">
-              <Viewer cards={this.state.cards || []} fetchCards={this.fetchCards}/>
+              <Categories categories={this.state.categories || []} addCategory={this.addCategory} />
             </Route>
           </Switch>
       </Router>
