@@ -1,11 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import ThreeDRotation from '@material-ui/icons/ThreeDRotation';
-import HearingIcon from '@material-ui/icons/Hearing';
-import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
+import {Grid, Divider} from '@material-ui/core';
+import {ThreeSixty as ThreeSixtyIcon, Hearing as HearingIcon, PlaylistPlay as PlaylistPlayIcon, ArrowForward as ArrowForwardIcon} from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,7 +28,7 @@ export default function VerticalDividers(props) {
       <PlaylistPlayIcon onClick={props.toggleAutoPlay}/>
       <HearingIcon onClick={props.readAload}/>
       <Divider orientation="vertical" />
-      <ThreeDRotation onClick={props.flipCard}/>
+      <ThreeSixtyIcon onClick={props.flipCard}/>
       <ArrowForwardIcon onClick={props.getNextQASet}/>
     </Grid>
   );
