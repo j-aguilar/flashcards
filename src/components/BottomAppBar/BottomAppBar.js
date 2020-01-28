@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from "react-router-dom";
 import { AppBar, Toolbar, Typography, IconButton, Fab, Button } from '@material-ui/core';
 import { Add as AddIcon, More as MoreIcon } from '@material-ui/icons';
 
@@ -23,15 +24,17 @@ const useStyles = makeStyles(theme => ({
 
 export default function BottomAppBar(props) {
   const classes = useStyles();
+  const { id } = useParams();
+  // console.log(id);
   // console.log(typeof props.useFab, props.useFab);
 
   return (
     <React.Fragment>
       <AppBar position="fixed" color="primary" className={classes.appBar}>
         <Toolbar>
-          <Button color="inherit">Categories</Button>
-          <Button color="inherit">Editor</Button>
-          <Button color="inherit">Veiwer</Button>
+          <Button color="inherit" href="/">Categories</Button>
+          <Button color="inherit" disabled={(!id)? true : false} href={`/categories/${id}`}>Editor</Button>
+          <Button color="inherit" disabled={(!id)? true : false} href={`/categories/${id}/viewer`}>Veiwer</Button>
           {props.useFab &&
             <Fab color="secondary" aria-label="add" className={classes.fabButton} onClick={props.handleOpen}>
               <AddIcon />
