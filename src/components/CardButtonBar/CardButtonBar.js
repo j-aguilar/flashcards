@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function VerticalDividers(props) {
   const classes = useStyles();
-  console.log(props)
+  // console.log(props)
 
   return (
     <Grid container alignItems="center" className={classes.root}>

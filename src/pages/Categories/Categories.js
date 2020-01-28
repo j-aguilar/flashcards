@@ -15,18 +15,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ListItemLink(props) {
-  console.log(props);
+  // console.log(props);
   return <ListItem button component="a" {...props} />;
 }
 
 function NoCategories(props) {
-  console.log(props.categories);
+  // console.log(props.categories);
   return <ListItem><ListItemText primary="No categories..." /></ListItem>
 }
 
 export default function Categories (props) {
-  console.log(this)
-  console.log(props.categories)
+  // console.log(this)
+  // console.log(props.categories)
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -41,7 +41,7 @@ export default function Categories (props) {
     },
     handleSubmit(event) {
       event.preventDefault()
-      console.log("submitted")
+      // console.log("submitted")
       props.addCategory(name)
       fabActions.handleClose()
       setName('')

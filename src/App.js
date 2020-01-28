@@ -24,9 +24,9 @@ class App extends Component {
       this.setState({ categories: (await this.db.getAllCategories()).rows })
     }
     this.addCategory = async (category) => {
-      console.log(category);
+      // console.log(category);
       let res = await this.db.createCategory(category)
-      console.log(res)
+      // console.log(res)
       this.fetchCategories()
     }
     this.editCategory = async (category) => {
@@ -38,7 +38,7 @@ class App extends Component {
     this.addCard = async (object) => {
       // console.log(object);
       let res = await this.db.createCard(object)
-      console.log(res)
+      // console.log(res)
       this.fetchCards(object.category)
     }
     /* bind all object methods to the 'this' property*/

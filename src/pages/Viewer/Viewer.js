@@ -105,7 +105,7 @@ class Viewer extends Component {
   } /* constructor */
 
   async componentDidMount() {
-    console.log(this.props)
+    // console.log(this.props)
     const id = this.props.match.params.id
     await this.props.fetchCards(id)
     let cards = [...this.props.cards].sort(() => (0.5 - Math.random()) )

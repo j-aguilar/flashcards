@@ -18,8 +18,8 @@ export default function FlipCard (props) {
   const id = "category_JavaScript_Interview_Questions"
   const [iterator, setIterator] = useState(0)
   useEffect(() => {
-    console.log(props)
-    console.log(id)
+    // console.log(props)
+    // console.log(id)
     props.fetchCards(id)
   }, [])
 

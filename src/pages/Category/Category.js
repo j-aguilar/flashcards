@@ -50,7 +50,7 @@ export default function Category (props) {
     },
     handleSubmit(event) {
       event.preventDefault()
-      console.log("submitted")
+      // console.log("submitted")
       props.addCard({question: question, answer: answer, category: id})
       fabActions.handleClose()
       setQuestion('')
