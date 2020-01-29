@@ -33,6 +33,7 @@ export default function Category (props) {
   const [open, setOpen] = React.useState(false);
   const [question, setQuestion] = React.useState('');
   const [answer, setAnswer] = React.useState('');
+  const [editing, setEditing] = React.useState(null)
   const setters = {
     set_question: setQuestion,
     set_answer: setAnswer
@@ -51,15 +52,29 @@ export default function Category (props) {
     handleSubmit(event) {
       event.preventDefault()
       // console.log("submitted")
-      props.addCard({question: question, answer: answer, category: id})
+      if (!!editing) {
+        props.updateCard({...editing,question: question, answer: answer})
+      } else {
+        props.addCard({question: question, answer: answer, category: id})
+      }
       fabActions.handleClose()
       setQuestion('')
       setAnswer('')
     }
   }
+  async function cardFeildsPopulator(event) {
+    console.log(event.currentTarget.id)
+    let card = await props.getCard(event.currentTarget.id)
+    console.log(card);
+    setQuestion(card.question)
+    setAnswer(card.answer)
+    setEditing(card)
+    fabActions.handleOpen()
+  }
 
 
   const CardList = () => {
+    console.log(props)
     let component = ''
     switch (props.cards.length) {
       case 0:
@@ -70,7 +85,7 @@ export default function Category (props) {
           return (
             <ListItem key={card.key}>
               <ListItemText primary={card.doc.question} secondary={card.doc.answer} />
-                <ListItemSecondaryAction>
+                <ListItemSecondaryAction onClick={cardFeildsPopulator} id={card.id}>
                   <IconButton edge="end" aria-label="edit">
                     <EditIcon />
                   </IconButton>
