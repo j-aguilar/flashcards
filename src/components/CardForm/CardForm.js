@@ -7,7 +7,6 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     display: 'flex',
@@ -21,22 +20,25 @@ const useStyles = makeStyles(theme => ({
 
 export default function CategoryForm(props) {
   const classes = useStyles();
-
-  // console.log(props.fabActions);
   return (
     <Modal
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       open={props.open}
-      onClose={props.fabActions.handleClose}
+      onClose={props.actions.handleClose}
     >
       <div className={classes.modal}>
-        <form className={classes.root} noValidate autoComplete="off" onSubmit={props.fabActions.handleSubmit}>
+        <form className={classes.root} noValidate autoComplete="off" onSubmit={props.actions.handleSubmit}>
           <TextField multiline placeholder="Question" fullWidth label="Question" name="question"
-             value={props.question} onChange={props.fabActions.handleChange} autoFocus required />
+             value={props.question} onChange={props.actions.handleChange} autoFocus required />
           <TextField multiline placeholder="Answer" fullWidth label="Answer" name="answer"
-            value={props.answer} onChange={props.fabActions.handleChange} required />
-          <Button variant="contained" color="primary" type="submit" style={{marginTop: '0.5em'}}>Submit</Button>
+            value={props.answer} onChange={props.actions.handleChange} required />
+          <Button variant="contained" color="primary" type="submit" style={{margin: '0.5em'}} onClick={props.actions.handleCancel}>Cancel</Button>
+          <Button variant="contained" color="primary" type="submit" style={{margin: '0.5em'}}>
+            {
+              (props.editing ? 'Edit' : props.deleting ? 'Delete' : 'Add')
+            }
+          </Button>
         </form>
       </div>
     </Modal>

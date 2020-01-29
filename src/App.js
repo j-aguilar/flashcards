@@ -47,7 +47,8 @@ class App extends Component {
               <Viewer cards={this.state.cards || []} fetchCards={this.db.read.cards}/>
             </Route>
             <Route path="/categories/:id">
-              <Category cards={this.state.cards || []} fetchCards={this.db.read.cards} addCard={this.db.create.card} getCard={this.db.read.card} updateCard={this.db.update.card}/>
+              <Category cards={this.state.cards || []} fetchCards={this.db.read.cards} addCard={this.db.create.card}
+                getCard={this.db.read.card} updateCard={this.db.update.card} deleteCard={this.db.delete.card}/>
             </Route>
             <Route path="/">
               <Categories categories={this.state.categories || []} addCategory={this.db.create.category} />
