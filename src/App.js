@@ -24,14 +24,13 @@ class App extends Component {
     Object.getOwnPropertyNames(that).filter(p => typeof that[p] === 'function').forEach(m => {that[m] = that[m].bind(that)})
     /* bind db methods to the this property */
     let init = (function() {
-      const O = Object, gopn = 'getOwnPropertyNames', db = that.db, crud = ['create', 'read', 'update']
+      const O = Object, gopn = 'getOwnPropertyNames', db = that.db, crud = ['create', 'read', 'update', 'delete']
       crud.forEach(o => {
         O[gopn](db[o]).filter(p => typeof db[o][p] === 'function').forEach(m => {db[o][m] = db[o][m].bind(that)})
       })
     })()
 
   } /* constructor */
-
   componentDidMount() {
     this.db.read.categories();
   }
@@ -48,7 +47,7 @@ class App extends Component {
               <Viewer cards={this.state.cards || []} fetchCards={this.db.read.cards}/>
             </Route>
             <Route path="/categories/:id">
-              <Category cards={this.state.cards || []} fetchCards={this.db.read.cards} addCard={this.db.create.card} getCard={this.db.read.card} qa={this.state.qa} updateCard={this.db.update.card}/>
+              <Category cards={this.state.cards || []} fetchCards={this.db.read.cards} addCard={this.db.create.card} getCard={this.db.read.card} updateCard={this.db.update.card}/>
             </Route>
             <Route path="/">
               <Categories categories={this.state.categories || []} addCategory={this.db.create.category} />

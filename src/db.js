@@ -4,7 +4,7 @@ import PouchDB from 'pouchdb'
 export default class DB {
   constructor (name) {
     this.pdb = new PouchDB(name);
-    
+
     this.create = {
       async card(obj) { return await this.db.pdb.put(
         {
@@ -48,6 +48,32 @@ export default class DB {
           updatedAt: new Date()
         })
         return this.db.read.cards(card.category)
+      },
+      async category (category) {
+        await this.db.pdb.put({
+          ...category,
+          updatedAt: new Date()
+        })
+        return this.db.read.categories()
+      }
+    } /* update */
+
+    this.delete = {
+      async card (card) {
+        await this.db.pdb.put({
+          ...card,
+          updatedAt: new Date(),
+          _deleted: true
+        })
+        return this.db.read.cards(card.category)
+      },
+      async category (category) {
+        await this.db.pdb.put({
+          ...category,
+          updatedAt: new Date(),
+          _deleted: true
+        })
+        return this.db.read.categories()
       }
     }
 
