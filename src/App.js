@@ -7,7 +7,6 @@ import Home from './pages/Home'
 import Categories from './pages/Categories'
 import Category from './pages/Category'
 import Viewer from './pages/Viewer'
-import BottomAppBar from './components/BottomAppBar'
 import DB from './db.js'
 
 class App extends Component {
@@ -20,33 +19,21 @@ class App extends Component {
       cards: [],
       qa: {},
     }
-    this.fetchCategories = async () => {
-      this.setState({ categories: (await this.db.getAllCategories()).rows })
-    }
-    this.addCategory = async (category) => {
-      // console.log(category);
-      let res = await this.db.createCategory(category)
-      // console.log(res)
-      this.fetchCategories()
-    }
-    this.editCategory = async (category) => {
-      // TODO: add editing function to db
-    }
-    this.fetchCards = async (categoryName) => {
-      this.setState({ cards: (await this.db.getCardsFromCategory(categoryName)).rows })
-    }
-    this.addCard = async (object) => {
-      // console.log(object);
-      let res = await this.db.createCard(object)
-      // console.log(res)
-      this.fetchCards(object.category)
-    }
-    /* bind all object methods to the 'this' property*/
+
+    /* bind all object methods to the 'this' property */
     Object.getOwnPropertyNames(that).filter(p => typeof that[p] === 'function').forEach(m => {that[m] = that[m].bind(that)})
+    /* bind db methods to the this property */
+    let init = (function() {
+      const O = Object, gopn = 'getOwnPropertyNames', db = that.db, crud = ['create', 'read', 'update']
+      crud.forEach(o => {
+        O[gopn](db[o]).filter(p => typeof db[o][p] === 'function').forEach(m => {db[o][m] = db[o][m].bind(that)})
+      })
+    })()
+
   } /* constructor */
 
   componentDidMount() {
-    this.fetchCategories();
+    this.db.read.categories();
   }
 
   render() {
@@ -58,13 +45,13 @@ class App extends Component {
         <Router>
           <Switch>
             <Route path="/categories/:id/viewer/">
-              <Viewer cards={this.state.cards || []} fetchCards={this.fetchCards}/>
+              <Viewer cards={this.state.cards || []} fetchCards={this.db.read.cards}/>
             </Route>
             <Route path="/categories/:id">
-              <Category cards={this.state.cards || []} fetchCards={this.fetchCards} addCard={this.addCard} />
+              <Category cards={this.state.cards || []} fetchCards={this.db.read.cards} addCard={this.db.create.card} getCard={this.db.read.card} qa={this.state.qa} updateCard={this.db.update.card}/>
             </Route>
             <Route path="/">
-              <Categories categories={this.state.categories || []} addCategory={this.addCategory} />
+              <Categories categories={this.state.categories || []} addCategory={this.db.create.category} />
             </Route>
           </Switch>
       </Router>
